@@ -132,15 +132,6 @@ Receiver gets the message in real-time without refreshing
 
 ---
 
-## 🐛 Known Bugs Fixed
-
-| Bug | Location | Fix |
-|-----|----------|-----|
-| `userId is not defined` | `socket.js` — `getReceiverSocketId()` | Added `userId` as function parameter |
-| `Cannot read properties of undefined (reading 'data')` | `useChatStore.js` catch blocks | Guard `error.response` before accessing `.data` |
-
----
-
 ## 📄 License
 
 MIT — free to use and modify.
