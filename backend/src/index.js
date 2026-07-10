@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000
 app.use(express.json())
 app.use(cookieparser())
 app.use(cors({
-    origin:["http://localhost:5173"],
+    origin:["https://chat-app-one-gilt-eu2ajpozja.vercel.app"],
     credentials: true
 }))
 
