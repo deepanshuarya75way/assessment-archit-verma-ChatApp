@@ -1,21 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-  MessageSquare,
-  User,
-} from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, MessageSquare, User, Loader2, UserPlus } from "lucide-react";
 import AuthImagePattern from "../components/AuthImagePattern";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../store/useAuthStore.js";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { signup } = useAuthStore();
+  const { signup, isSigningUp } = useAuthStore();
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -33,136 +25,147 @@ const SignUpPage = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const success = validateForm();
-    if(success) {
+    if (validateForm()) {
       signup(formData);
     }
   };
 
-
-
   return (
-    <div className="h-screen grid lg:grid-cols-2">
+    <div className="min-h-screen pt-16 grid lg:grid-cols-2 bg-base-100 font-sans">
       {/* Left Side - Form */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
-        <div className="w-full max-w-md space-y-8">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="flex flex-col items-center gap-2 group">
-              <div
-                className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20
-              transition-colors"
-              >
-                <MessageSquare className="w-6 h-6 text-primary" />
+      <div className="flex flex-col justify-center items-center p-6 sm:p-12 relative">
+        <div className="w-full max-w-md space-y-7">
+          
+          {/* Header & Logo */}
+          <div className="text-center">
+            <div className="flex flex-col items-center gap-3 group">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-primary/20 via-primary/10 to-transparent flex items-center justify-center border border-primary/20 shadow-md group-hover:scale-105 transition-all duration-300">
+                <MessageSquare className="w-7 h-7 text-primary" />
               </div>
-              <h1 className="text-2xl font-bold mt-2">Welcome Back</h1>
-              <p className="text-base-content/60">Sign in to your account</p>
+              <h1 className="text-3xl font-extrabold tracking-tight mt-1 bg-gradient-to-r from-base-content via-base-content/90 to-primary bg-clip-text text-transparent">
+                Create Account
+              </h1>
+              <p className="text-sm text-base-content/60 font-medium">
+                Get started with your free Talkative account today
+              </p>
             </div>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-
+          <form onSubmit={handleSubmit} className="space-y-4">
+            
             {/* Full Name */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Full Name</span>
+              <label className="label py-1">
+                <span className="label-text font-semibold text-xs uppercase tracking-wider text-base-content/70">
+                  Full Name
+                </span>
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-base-content/40 z-10" />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-base-content/40 group-focus-within:text-primary transition-colors">
+                  <User className="h-5 w-5" />
                 </div>
                 <input
                   type="text"
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-11 pr-4 py-3 text-sm rounded-xl bg-base-200/50 border-base-content/15 focus:border-primary focus:bg-base-100 focus:outline-none transition-all duration-200"
                   placeholder="John Doe"
                   value={formData.fullName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, fullName: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 />
               </div>
             </div>
 
             {/* Email */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Email</span>
+              <label className="label py-1">
+                <span className="label-text font-semibold text-xs uppercase tracking-wider text-base-content/70">
+                  Email Address
+                </span>
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-base-content/40 z-10" />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-base-content/40 group-focus-within:text-primary transition-colors">
+                  <Mail className="h-5 w-5" />
                 </div>
                 <input
                   type="email"
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-11 pr-4 py-3 text-sm rounded-xl bg-base-200/50 border-base-content/15 focus:border-primary focus:bg-base-100 focus:outline-none transition-all duration-200"
                   placeholder="you@example.com"
                   value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
             </div>
 
             {/* Password */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Password</span>
+              <label className="label py-1">
+                <span className="label-text font-semibold text-xs uppercase tracking-wider text-base-content/70">
+                  Password
+                </span>
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-base-content/40 z-10" />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-base-content/40 group-focus-within:text-primary transition-colors">
+                  <Lock className="h-5 w-5" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-11 pr-11 py-3 text-sm rounded-xl bg-base-200/50 border-base-content/15 focus:border-primary focus:bg-base-100 focus:outline-none transition-all duration-200"
                   placeholder="••••••••"
                   value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-base-content/40 hover:text-base-content transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-base-content/40 z-10" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-base-content/40 z-10" />
-                  )}
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
-              Create Account
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSigningUp}
+              className="btn btn-primary w-full py-3 h-auto min-h-0 text-sm font-semibold rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 mt-2"
+            >
+              {isSigningUp ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <span>Creating Account...</span>
+                </>
+              ) : (
+                <>
+                  <UserPlus className="h-4 w-4" />
+                  <span>Create Account</span>
+                </>
+              )}
             </button>
           </form>
 
-          <div className="text-center">
-            <p className="text-base-content/60">
-              Don&apos;t have an account?{" "}
-              <Link to="/login" className="link link-primary">
-                Login
+          {/* Footer Link */}
+          <div className="text-center pt-1">
+            <p className="text-sm text-base-content/70">
+              Already have an account?{" "}
+              <Link to="/login" className="font-semibold text-primary hover:underline transition-colors">
+                Sign in
               </Link>
             </p>
           </div>
         </div>
       </div>
 
-      {/* Right Side - Image/Pattern */}
+      {/* Right Side - Interactive Feature Showcase */}
       <AuthImagePattern
-        title={"Welcome back!"}
-        subtitle={"Sign in to continue your conversations and catch up with your messages."}
+        title="Join our community"
+        subtitle="Connect with friends, share moments, and stay in touch with instant real-time messaging."
       />
     </div>
   );
 };
 
-export default SignUpPage;
+export default SignUpPage;

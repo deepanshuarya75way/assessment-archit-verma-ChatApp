@@ -40,7 +40,7 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Account created successfully");
         get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       set({ isSigningUp: false });
     }
@@ -91,21 +91,36 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-    connectSocket:()=>{
-      const {authUser} = get()
-      if(!authUser || get().socket?.connected) return
-      const socket = io(BASE_URL,{
-        query:{userId:authUser._id}
-      })
-      socket.connect()
-      set({socket:socket})
+  connectSocket: () => {
+    const { authUser } = get();
+    if (!authUser) return;
 
-      socket.on("getOnlineUser",(usersIds)=>{
-        set({onlineUsers:usersIds})
-      })
+    // If socket exists and is already connected, don't re-create
+    if (get().socket?.connected) return;
+
+    const socket = io(BASE_URL, {
+      query: { userId: authUser._id },
+      transports: ["websocket", "polling"],
+      withCredentials: true,
+    });
+
+    socket.connect();
+    set({ socket });
+
+    socket.on("getOnlineUser", (userIds) => {
+      set({ onlineUsers: userIds });
+    });
+
+    socket.on("getOnlineUsers", (userIds) => {
+      set({ onlineUsers: userIds });
+    });
+  },
+
+  disconnectSocket: () => {
+    const currentSocket = get().socket;
+    if (currentSocket?.connected) {
+      currentSocket.disconnect();
     }
-    ,
-    disconnectSocket:()=>{
-      if(get().socket?.connected) get().socket.disconnect()
-      }
-}));
+    set({ socket: null });
+  },
+}));

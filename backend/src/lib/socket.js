@@ -1,48 +1,59 @@
-import {Server } from "socket.io"
-import http from "http"
-import express from "express"
+import { Server } from "socket.io";
+import http from "http";
+import express from "express";
 
-const app = express()
-const server = http.createServer(app)
+const app = express();
+const server = http.createServer(app);
 
-const io = new Server(server,{
-    cors:{
-        origin:["https://chat-app-one-gilt-eu2ajpozja.vercel.app"],
-    }
-})
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "http://127.0.0.1:5173",
+      "https://chat-app-one-gilt-eu2ajpozja.vercel.app",
+    ],
+    credentials: true,
+  },
+});
 
-export function getReceiverSocketId(userId){
-    return userSocketMap[userId]
+export function getReceiverSocketId(userId) {
+  return userSocketMap[userId];
 }
 
-const userSocketMap = {}
+const userSocketMap = {}; // {userId: socketId}
 
 io.on("connection", (socket) => {
-    
-    console.log("A user connected", socket.id)
 
-    const userId = socket.handshake.query.userId
+  const userId = socket.handshake.query.userId;
 
-    if(userId) userSocketMap[userId] = socket.id
+  if (userId && userId !== "undefined") {
+    userSocketMap[userId] = socket.id;
+  }
 
-   
-    io.emit("getOnlineUser" , Object.keys(userSocketMap))
+  // Broadcast online users list to all connected clients
+  io.emit("getOnlineUser", Object.keys(userSocketMap));
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-    socket.on("typing", (receiverId) => {
-        const receiverSocketId = getReceiverSocketId(receiverId)
-        if(receiverSocketId) io.to(receiverSocketId).emit("typing", userId)
-    })
+  socket.on("typing", (receiverId) => {
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) io.to(receiverSocketId).emit("typing", userId);
+  });
 
-    socket.on("stopTyping", (receiverId) => {
-        const receiverSocketId = getReceiverSocketId(receiverId)
-        if(receiverSocketId) io.to(receiverSocketId).emit("stopTyping", userId)
-    })
+  socket.on("stopTyping", (receiverId) => {
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) io.to(receiverSocketId).emit("stopTyping", userId);
+  });
 
-    socket.on("disconnect", () => {
-        console.log("A user disconnected", socket.id)
-        delete userSocketMap[userId]
-        io.emit("getOnlineUser" , Object.keys(userSocketMap))
-    })
-})
+  socket.on("disconnect", () => {
 
-export {app, server, io} 
+    if (userId && userId !== "undefined") {
+      delete userSocketMap[userId];
+    }
+    io.emit("getOnlineUser", Object.keys(userSocketMap));
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  });
+});
+
+export { app, server, io };
+ 

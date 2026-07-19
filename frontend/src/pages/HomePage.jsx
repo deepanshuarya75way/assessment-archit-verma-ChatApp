@@ -1,29 +1,22 @@
 
-import React from 'react'
-import Sidebar from '../components/Sidebar'
-import { useChatStore } from '../store/useChatStore';
-import NoChatSelected from '../components/NoChatSelected';
-import ChatContainer from '../components/ChatContainer';
-
+import React from "react";
+import Sidebar from "../components/Sidebar";
+import { useChatStore } from "../store/useChatStore";
+import NoChatSelected from "../components/NoChatSelected";
+import ChatContainer from "../components/ChatContainer";
 
 const HomePage = () => {
-   const { selectedUser } = useChatStore();
-   console.log("Selected user in HomePage:", selectedUser);
-  return (
-    <>
-     <div className="h-screen bg-base-200">
-    <div className="flex items-center justify-center pt-20 px-4">
-      <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]">
-        <div className="flex h-full rounded-lg overflow-hidden">
-          <Sidebar/>
+  const { selectedUser } = useChatStore();
 
-          {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
-        </div>
+  return (
+    <div className="h-screen pt-16 bg-base-100 w-full overflow-hidden font-sans">
+      <div className="flex h-full w-full overflow-hidden">
+        <Sidebar />
+        {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
       </div>
     </div>
-  </div>
-    </>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
+
