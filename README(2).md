@@ -398,7 +398,7 @@ ChatApp/
 
 ---
 
-## Resume-Relevant Metrics
+
 
 - **8 REST API Endpoints:** Verified across backend route definitions (`auth.routes.js` - 5 endpoints, `message.routes.js` - 3 endpoints).
 - **2 Backend Route Modules:** Verified in `backend/src/routes/` (`auth.routes.js`, `message.routes.js`).
@@ -413,7 +413,6 @@ ChatApp/
 
 ---
 
-## Resume Suggestions
 
 \resumeItem {Architected a full-stack real-time chat application using \textbf{React 18}, \textbf{Node.js}, \textbf{Express.js}, and \textbf{MongoDB}, engineering \textbf{8 REST API endpoints} and integrating \textbf{Socket.IO} for instant message delivery.}
 

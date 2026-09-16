@@ -7,7 +7,10 @@ import { io } from "socket.io-client";
 // import { checkAuth, login, signup } from "../../../backend/src/controllers/auth.controllers.js";
 // import User from "../models/user.model.js";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
+const BASE_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5001"
+    : (import.meta.env.VITE_BACKEND_URL || "https://chatapp-backend-bupg.onrender.com");
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
