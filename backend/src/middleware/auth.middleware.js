@@ -5,18 +5,18 @@ export const protectRoute = async (req,res,next) => {
     try {
         const token = req.cookies.jwt
     if(!token){
-         res.status(500).json({message:"UnAuthorized - No token Found"})
+         return res.status(401).json({message:"UnAuthorized - No token Found"})
     }
 
     const decoded = jwt.verify(token , process.env.JWT_SECRET)
     if(!decoded){
-         res.status(500).json({message:"UnAuthorized - No token Found"})
+         return res.status(401).json({message:"UnAuthorized - Invalid Token"})
     }
 
     const user = await User.findById(decoded.userId).select("-password")
 
     if(!user){
-        res.status(500).json({message:"UnAuthorized - User Not Found"})
+        return res.status(404).json({message:"UnAuthorized - User Not Found"})
     }
 
     req.user = user

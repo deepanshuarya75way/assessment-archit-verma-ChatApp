@@ -4,6 +4,14 @@ A full-stack real-time chat application built with the **MERN stack** and **Sock
 
 ---
 
+## 📸 Screenshots
+
+| Login Page | Theme Customization |
+| :---: | :---: |
+| <img src=".github/assets/login.png" alt="Login Page" width="500" /> | <img src=".github/assets/setting.png" alt="Theme Customization" width="500" /> |
+
+---
+
 ## 🚀 Tech Stack
 
 ### Frontend
