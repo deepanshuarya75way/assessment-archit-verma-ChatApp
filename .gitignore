@@ -1,5 +1,5 @@
 screenshots/
-.github/
+
 node_modules/
 
 .env
