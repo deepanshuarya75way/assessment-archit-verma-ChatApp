@@ -29,6 +29,7 @@ const Sidebar = () => {
   });
 
   if (isUsersLoading) return <SidebarSkeleton />;
+  
 
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-content/10 flex flex-col transition-all duration-300 bg-base-100/50 backdrop-blur-md">

@@ -1,5 +1,5 @@
 import { User } from "lucide-react"
-import { createGroup } from "../../../backend/src/controllers/group.controller.js"
+
 import { useState } from "react"
 import { useGroupStore } from "../store/useGroupStore.js"
 import { useEffect } from "react"
@@ -16,7 +16,7 @@ useEffect(()=>{
   const toggleUser = (userId)=>{
     setSelectedUser((prev)=>prev.includes(userId)?prev.filter((id)=>id!== userId):[...prev,userId])
 
-  }
+  
 }
 
 
@@ -62,4 +62,5 @@ return (
   </div>
   </>
 )
+}
 export default GroupModal
