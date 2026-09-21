@@ -4,10 +4,10 @@ export const createGroup = async(req,res)=>{
   try {
     const {name,memberIds=[]}= req.body
 
-    if(!name){
+    if(!name?.trim()){
       return res.status(400).json({message:"Group name is required"})
     }
-    const invitedCode = crypto.randomBytes(4).toString("hex")
+    const inviteCode = crypto.randomBytes(4).toString("hex")
     const members=[
       req.user._id,
       ...memberIds.filter(
@@ -58,6 +58,7 @@ export const joinGroup = async(req,res)=>{
     if(alreadyMember){
       return res.status(400).json({message:"You already exist in group"})
     }
+    group.members.push(req.user._id)
     await group.save()
 
     const updateGroup = await Group.findById(group._id).populate("creator","fullName email profilePic").populate("members","fullName email profilePic")

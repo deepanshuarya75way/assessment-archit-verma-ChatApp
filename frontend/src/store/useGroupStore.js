@@ -1,4 +1,6 @@
-import { createGroup, getMyGroups, joinGroup } from "../../../backend/src/controllers/group.controller.js";
+import { create } from "zustand"
+import { axiosInstance } from "../lib/axios"
+
 
 export const useGroupStore = create((set)=>({
   groups: [],
