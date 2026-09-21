@@ -5,6 +5,7 @@ import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users, Search, Circle } from "lucide-react";
 import AvatarLogo from "../assets/Avatar_Logo.jpg";
 import { useGroupStore } from "../store/useGroupStore";
+import GroupModal from "./GroupModal";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
@@ -12,6 +13,7 @@ const Sidebar = () => {
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const {groups}= useGroupStore()
+  const [isGroupModalOpen , setIsGroupModalOpen] = useState(false)
 
   useEffect(() => {
     getUsers();
@@ -56,6 +58,7 @@ const Sidebar = () => {
             className="w-full bg-base-200/60 text-xs rounded-xl pl-9 pr-3 py-2 border border-base-content/10 focus:border-primary focus:bg-base-100 focus:outline-none transition-all"
           />
         </div>
+        <button onClick={()=>setIsGroupModalOpen(true)}>Group</button>
 
         {/* Online Toggle */}
         <div className="hidden lg:flex items-center justify-between pt-1">
@@ -149,8 +152,9 @@ const Sidebar = () => {
           
           
         ))}
-      </div>
+        </div>
      )}
+     {/* <GroupModal isOpen={isGroupModalOpen} onClose={()=>setIsGroupModalOpen(false)}/>  */}
     </aside>
   );
 };
