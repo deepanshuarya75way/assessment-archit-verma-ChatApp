@@ -30,7 +30,7 @@ useEffect(()=>{
   if(authUser){
     getMyGroups()
   }
-},[authUser])
+},[authUser,getMyGroups])
 
   useEffect(() => {
     checkAuth();

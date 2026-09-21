@@ -11,7 +11,7 @@ export const useGroupStore = create((set)=>({
       set({isLoadingGroups:true})
       const res = await axiosInstance.get("/groups/my-groups")
 
-      set({groups: res.data,})
+      set({groups: res.data})
     } catch (error) {
       console.log(error.response?.data?.message || error.message)
     }

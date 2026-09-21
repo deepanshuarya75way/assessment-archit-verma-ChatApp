@@ -4,12 +4,14 @@ import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users, Search, Circle } from "lucide-react";
 import AvatarLogo from "../assets/Avatar_Logo.jpg";
+import { useGroupStore } from "../store/useGroupStore";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
   const { onlineUsers, authUser } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const {groups}= useGroupStore()
 
   useEffect(() => {
     getUsers();
@@ -125,7 +127,31 @@ const Sidebar = () => {
           </div>
         )}
       </div>
+
+     {groups?.length>0 && (
+      <div className="mt-4">
+        <h3 className="px-4 py-2 text-sm">Groups</h3>
+        {groups.map((group)=>(
+          <div key={group._id} className="flex cursor-pointer items-center gap-3 px-4 py-3 ">
+            <div className="flex h-10 w-10 items-center justify-center">
+              {group.name?.charAt(0).toUpperCase()}
+            </div>
+            <div className="">
+              <p>
+                {group.name}
+              </p>
+              <p>
+                {group.members?.length ||0} members
+              </p>
+
+            </div>
+          </div>
+          
+          
+        ))}
+      </div>
+     )}
     </aside>
   );
 };
-export default Sidebar;
+export default Sidebar;

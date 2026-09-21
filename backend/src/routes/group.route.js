@@ -5,7 +5,7 @@ import { createGroup, getMyGroups, joinGroup } from "../controllers/group.contro
 const router = express.Router()
 
 router.post("/create",protectRoute,createGroup)
-router.get("/my-gropus",protectRoute,getMyGroups)
+router.get("/my-groups",protectRoute,getMyGroups)
 router.post("/join",protectRoute,joinGroup)
 
 export default router
