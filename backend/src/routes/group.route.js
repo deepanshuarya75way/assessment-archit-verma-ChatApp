@@ -1,6 +1,6 @@
 import express from "express";
-import { protectRoute } from "../middleware/auth.middleware";
-import { createGroup, getMyGroups, joinGroup } from "../controllers/group.controller";
+import { protectRoute } from "../middleware/auth.middleware.js";
+import { createGroup, getMyGroups, joinGroup } from "../controllers/group.controller.js";
 
 const router = express.Router()
 

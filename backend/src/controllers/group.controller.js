@@ -1,4 +1,4 @@
-import Group from "../models/Group";
+import Group from "../models/Group.js";
 import crypto from "crypto"
 export const createGroup = async(req,res)=>{
   try {

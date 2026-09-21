@@ -5,22 +5,32 @@ import SignUpPage from './pages/SignUpPage'
 import LoginPage from './pages/LoginPage'
 import SettingsPage from './pages/SettingsPage'
 import ProfilePage from './pages/ProfilePage'
+
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from './store/useAuthStore'
 import { Loader } from 'lucide-react'
 import Navbar from './components/Navbar'
 import { useThemeStore } from './store/useThemeStore';
+import { useGroupStore } from './store/useGroupStore.js'
 
 
 
 const App = () => {
   const {authUser , checkAuth , isCheckingAuth ,onlineUsers } = useAuthStore();
 
+  const {getMyGroups}= useGroupStore()
+
   const {theme} = useThemeStore();
   useEffect(() => {
   document.documentElement.setAttribute("data-theme", theme);
 }, [theme]);
 console.log(theme)
+
+useEffect(()=>{
+  if(authUser){
+    getMyGroups()
+  }
+},[authUser])
 
   useEffect(() => {
     checkAuth();

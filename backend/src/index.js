@@ -9,6 +9,7 @@ import {app, io, server} from "./lib/socket.js"
 import { connectDB } from "./lib/db.js"
 import authRoutes from "./routes/auth.routes.js"
 import messagesRoutes from "./routes/message.routes.js"
+import groupRoutes from "./routes/group.route.js"
 
 dotenv.config()
 
@@ -37,6 +38,7 @@ app.use(cors({
 
 app.use("/api/auth" , authRoutes)
 app.use("/api/messages", messagesRoutes)
+app.use("/api/groups",groupRoutes)
 
 server.listen(PORT,()=>{
     console.log(`Server is running at ${PORT}`)
